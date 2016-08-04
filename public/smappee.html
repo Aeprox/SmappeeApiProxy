@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+<head>  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script type="text/javascript">
+  var url = "http://localhost:3000/api"
+
+  window.onload = function () {
+    var chart = new CanvasJS.Chart("chartContainer",
+    {
+      title:{
+        text: "Placing dataPoint on axisX"
+      },
+      data: [
+        {
+          type: "spline",
+          showInLegend: true,           
+          name: "L1",    
+          dataPoints: [
+            {y : 0},
+
+          ]
+        },
+        {
+          type: "spline",
+          showInLegend: true,           
+          name: "L2",    
+          dataPoints: [
+            {y : 0},
+
+          ]
+        },
+        {
+          type: "spline",
+          showInLegend: true,           
+          name: "L3",    
+          dataPoints: [
+            {y : 0},
+
+          ]
+        }
+      ]
+    });
+    chart.render(); 
+
+    var addDataPoint = function() {
+      
+      $.get(url, function(data){
+        var val0,val1,val2;
+        val0 = data[4].value/1000;
+        val1 = data[9].value/1000;
+        val2 = data[14].value/1000;
+        chart.options.data[0].dataPoints.push({ y: val0});
+        chart.options.data[1].dataPoints.push({ y: val1});
+        chart.options.data[2].dataPoints.push({ y: val2});
+        chart.render();
+      });
+    };
+
+    window.setInterval(addDataPoint, 1000);
+
+  }; 
+  </script>
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/canvasjs.min.js"></script></head>
+<body>
+  <div id="chartContainer" style="height: 300px; width: 100%;">
+  </div>
+</body>
+</html>
