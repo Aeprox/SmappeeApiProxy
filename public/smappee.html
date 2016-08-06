@@ -6,6 +6,7 @@
 
   window.onload = function () {
     var url = '{{{ ApiURL }}}';
+    var stamp =  new Date();
     var chart = new CanvasJS.Chart("chartContainer",
     {
       title:{
@@ -17,8 +18,7 @@
           showInLegend: true,           
           name: "L1",    
           dataPoints: [
-            {y : 0},
-
+            {y : 0, x: stamp},
           ]
         },
         {
@@ -26,7 +26,7 @@
           showInLegend: true,           
           name: "L2",    
           dataPoints: [
-            {y : 0},
+            {y : 0, x: stamp},
 
           ]
         },
@@ -35,7 +35,7 @@
           showInLegend: true,           
           name: "L3",    
           dataPoints: [
-            {y : 0},
+            {y : 0, x: stamp},
 
           ]
         }
@@ -50,9 +50,10 @@
         val0 = data[4].value/1000;
         val1 = data[9].value/1000;
         val2 = data[14].value/1000;
-        chart.options.data[0].dataPoints.push({ y: val0});
-        chart.options.data[1].dataPoints.push({ y: val1});
-        chart.options.data[2].dataPoints.push({ y: val2});
+        stamp =  new Date();
+        chart.options.data[0].dataPoints.push({ y: val0, x: stamp});
+        chart.options.data[1].dataPoints.push({ y: val1, x: stamp});
+        chart.options.data[2].dataPoints.push({ y: val2, x: stamp});
         chart.render();
       });
     };
