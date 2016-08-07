@@ -33,7 +33,6 @@ app.get('/api', function (req, res) {
 
 app.get('/', function (req, res) {
 	var apiUrl = req.protocol + "://" + req.get('host') + req.originalUrl + "api";
-	console.log(apiUrl);
 	fs.readFile(filePath, function (err, content) {
 		res.send(mustache.render(content.toString(), {'ApiURL' : apiUrl}))
 	});

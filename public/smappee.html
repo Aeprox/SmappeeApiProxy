@@ -27,7 +27,6 @@
           name: "L2",    
           dataPoints: [
             {y : 0, x: stamp},
-
           ]
         },
         {
@@ -36,24 +35,49 @@
           name: "L3",    
           dataPoints: [
             {y : 0, x: stamp},
-
+          ]
+        },
+        {
+          type: "spline",
+          showInLegend: true, 
+          name: "Sum",
+          visible: false, 
+          dataPoints: [
+            {y : 0, x: stamp},
           ]
         }
-      ]
+      ],
+      legend: {
+        cursor: "pointer",
+        itemclick: function (e) {
+          if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+            e.dataSeries.visible = false;
+          } else {
+            e.dataSeries.visible = true;
+          }
+        chart.render();
+        }
+      }
     });
     chart.render(); 
 
     var addDataPoint = function() {
       
       $.get(url, function(data){
-        var val0,val1,val2;
+        var val0,val1,val2,sum,l;
         val0 = data[4].value/1000;
         val1 = data[9].value/1000;
         val2 = data[14].value/1000;
+        sum = val0 + val1 + val2;
         stamp =  new Date();
-        chart.options.data[0].dataPoints.push({ y: val0, x: stamp});
-        chart.options.data[1].dataPoints.push({ y: val1, x: stamp});
-        chart.options.data[2].dataPoints.push({ y: val2, x: stamp});
+        l = chart.options.data[0].dataPoints.push({ y: val0, x: stamp});
+        if(l > 3600){ chart.options.data[0].dataPoints.shift(); }
+        l = chart.options.data[1].dataPoints.push({ y: val1, x: stamp});
+        if(l > 3600){ chart.options.data[1].dataPoints.shift(); }
+        l = chart.options.data[2].dataPoints.push({ y: val2, x: stamp});
+        if(l > 3600){ chart.options.data[2].dataPoints.shift(); }
+        l = chart.options.data[3].dataPoints.push({ y: sum, x: stamp});
+        if(l > 3600){ chart.options.data[3].dataPoints.shift(); }
         chart.render();
       });
     };
